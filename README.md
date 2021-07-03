@@ -11,11 +11,11 @@ Welcome to my repository named TravelMap
 Firstly you should add the values on .env.example and change to .env:
 * In the frontend folder:
 
-  `MONGO_URL = ` URL of a mongodb connection, with username and passowrd
+  `REACT_APP_MAPBOX = ` MAPBOX public key
 
 * In the backend folder:
 
-  `REACT_APP_MAPBOX = ` MAPBOX public key
+  `MONGO_URL = ` URL of a mongodb connection, with username and passowrd
 
 After the other steps, you'll need to use `npm install` and `npm start` inside the backend and the frontend folders.
 
