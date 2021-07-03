@@ -4,14 +4,19 @@ import { Room, Star } from '@material-ui/icons';
 import { format } from 'timeago.js';
 import './App.css';
 import axios from 'axios';
+import Register from './components/Register/Register';
+import Login from './components/Login/Login';
 function App() {
-  const currentUser = 'bernardo';
+  const myStorage = window.localStorage;
+  const [currentUser, setCurrentUser] = useState(myStorage.getItem('user'));
   const [pins, setPins] = useState([]);
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
   const [title, setTitle] = useState(null);
   const [desc, setDesc] = useState(null);
   const [rating, setRating] = useState(0);
   const [newPlace, setNewPlace] = useState(null);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: '100vh',
@@ -56,6 +61,10 @@ function App() {
       console.log(err);
     }
   };
+  const handleLogout = () => {
+    myStorage.removeItem('user');
+    setCurrentUser(null);
+  };
   return (
     <div className='App'>
       <ReactMapGL
@@ -68,7 +77,12 @@ function App() {
       >
         {pins.map((p) => (
           <>
-            <Marker latitude={p.lat} longitude={p.long} offsetLeft={-viewport.zoom * 3.5} offsetTop={-viewport.zoom * 5}>
+            <Marker
+              latitude={p.lat}
+              longitude={p.long}
+              offsetLeft={-viewport.zoom * 3.5}
+              offsetTop={-viewport.zoom * 5}
+            >
               <Room
                 style={{
                   fontSize: viewport.zoom * 5,
@@ -135,6 +149,22 @@ function App() {
             </div>
           </Popup>
         )}
+        {currentUser ? (
+          <button className='button logout' onClick={handleLogout}>
+            Logout
+          </button>
+        ) : (
+          <div className='buttons'>
+            <button className='button login' onClick={() => setShowLogin(true)}>
+              Login
+            </button>
+            <button className='button register' onClick={() => setShowRegister(true)}>
+              Register
+            </button>
+          </div>
+        )}
+        {showRegister && <Register setShowRegister={setShowRegister} />}
+        {showLogin && <Login setShowLogin={setShowLogin} myStorage={myStorage} setCurrentUser={setCurrentUser} />}
       </ReactMapGL>
     </div>
   );
