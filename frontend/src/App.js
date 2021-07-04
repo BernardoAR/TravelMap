@@ -40,8 +40,10 @@ function App() {
     setViewport({ ...viewport, latitude: lat, longitude: long });
   };
   const handleAddClick = (e) => {
-    const [long, lat] = e.lngLat;
-    setNewPlace({ lat, long });
+    if(currentUser){
+      const [long, lat] = e.lngLat;
+      setNewPlace({ lat, long });
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -155,10 +157,10 @@ function App() {
           </button>
         ) : (
           <div className='buttons'>
-            <button className='button login' onClick={() => setShowLogin(true)}>
+            <button className='button login' onClick={() => {setShowLogin(true); setShowRegister(false);}}>
               Login
             </button>
-            <button className='button register' onClick={() => setShowRegister(true)}>
+            <button className='button register' onClick={() => {setShowRegister(true); setShowLogin(false);}}>
               Register
             </button>
           </div>
